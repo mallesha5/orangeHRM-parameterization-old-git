@@ -1,0 +1,5 @@
+orange\HRM\Pages\LogoutPage.class
+orange\HRM\Pages\DashboardPage.class
+configuration\hooks.class
+orange\HRM\Pages\LoginPage.class
+orange\HRM\TestCases\VerifyOrangeHRM.class
