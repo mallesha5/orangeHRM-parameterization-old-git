@@ -21,6 +21,7 @@ import orange.HRM.Pages.DashboardPage;
 import orange.HRM.Pages.DirectoryPage;
 import orange.HRM.Pages.LoginPage;
 import orange.HRM.Pages.LogoutPage;
+import orange.HRM.Pages.PIMPage;
 
 /**
  * @author Mallesh
@@ -38,6 +39,7 @@ public class VerifyOrangeHRM
 		driver = Webdriver.InitializeWebDriver();
 		
 		LoginPage login = new LoginPage(driver);
+		PIMPage pim = new PIMPage(driver);
 		DashboardPage dashboard = new DashboardPage(driver);
 		LogoutPage logout = new LogoutPage(driver);
 		DirectoryPage directory = new DirectoryPage(driver);
@@ -60,6 +62,7 @@ public class VerifyOrangeHRM
 		
 		
 		login.loginToOrangeHRM("Admin","admin123");
+		pim.verifyPIMLogo();
 		dashboard.verifyDashboardLogo();
 		directory.verifyDirectoryLogo();
 		

@@ -5,16 +5,18 @@ package orange.HRM.Pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
 
 /**
  * @author Mallesh
  *
+ * This class will store all the locators and methods of logout page
  */
 public class LogoutPage 
 {
 	WebDriver driver;
 	
-	By logoutMenu = By.id("welcome");
+	By logoutMenu = By.className("oxd-userdropdown-name");
 	By logoutBtn = By.linkText("Logout");
 	
 	public LogoutPage(WebDriver driver) 
@@ -28,6 +30,6 @@ public class LogoutPage
 		driver.findElement(logoutMenu).click();
 		driver.findElement(logoutBtn).click();
 		
-		System.out.println(driver.getCurrentUrl());
+		Assert.assertTrue(driver.getCurrentUrl().contains("login"));
 	}
 }

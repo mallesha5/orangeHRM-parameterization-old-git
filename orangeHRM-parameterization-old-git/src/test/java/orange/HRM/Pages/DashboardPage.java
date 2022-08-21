@@ -9,13 +9,16 @@ import org.testng.Assert;
 
 /**
  * @author Mallesh
+ * 
+ * This class will store all the locators and methods of dashboard page
  *
  */
 public class DashboardPage 
 {
 	WebDriver driver;
 	
-	By logo = By.xpath("//*[@class=\"head\"]/h1");
+	By dashboardLink = By.linkText("Dashboard");
+	By logo = By.className("oxd-topbar-header-breadcrumb-module");
 	
 	public DashboardPage(WebDriver driver)
 	{
@@ -24,8 +27,8 @@ public class DashboardPage
 	
 	public void verifyDashboardLogo()
 	{
+		driver.findElement(dashboardLink).click();
 		String logoText = driver.findElement(logo).getText();
-		System.out.println(logoText);
 		Assert.assertEquals(logoText, "Dashboard");
 	}
 	

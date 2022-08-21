@@ -4,24 +4,28 @@
 package orange.HRM.Pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
 /**
  * @author Mallesh
+ * 
+ * This class will store all the locators and methods of directory page
  *
  */
 public class DirectoryPage 
 {
 WebDriver driver;
+String returnStr = null;
 	
-	By directoryLink = By.id("menu_directory_viewDirectory");
-	By logoDirectory = By.cssSelector(".head>h1");
-	By searchNameField = By.id("searchDirectory_emp_name_empName");
-	By searchButton = By.id("searchBtn");
-	By resultsListName = By.xpath("//*[@id=\"resultTable\"]//b");
-	By noRecordsFound = By.id("divNoResults");
-	By resetButton = By.id("resetBtn");
+	By directoryLink = By.linkText("Directory");
+	By logoDirectory = By.className("oxd-topbar-header-breadcrumb-module");
+	By searchNameField = By.xpath("//div[contains(@class, \"oxd-autocomplete-text-input\")]/input");
+	By searchButton = By.xpath("//button[@type=\"submit\"]");
+	By resultsListName = By.className("orangehrm-directory-card-header");
+	By resetButton = By.xpath("//button[@type=\"reset\"]");
+	By autoCompleteOption = By.className("oxd-autocomplete-option");
 	
 	public DirectoryPage(WebDriver driver)
 	{
@@ -32,36 +36,43 @@ WebDriver driver;
 	{
 		driver.findElement(directoryLink).click();
 		String logoText = driver.findElement(logoDirectory).getText();
-		System.out.println(logoText);
-		Assert.assertEquals(logoText, "Search Directory");
+		Assert.assertEquals(logoText, "Directory");
 	}
 	
 	public String searchDirectory(String srcStr) throws Exception
 	{
-		String returnStr = null;
 		driver.findElement(searchNameField).sendKeys(srcStr);
-		driver.findElement(searchButton).click();
 		Thread.sleep(5000);
+		String autoCompleteValue = driver.findElement(autoCompleteOption).getText();
+		System.out.println("the auto complete text = "+autoCompleteValue);
 		
-		if (driver.findElements(resultsListName).size()!=0)
-		{
-			String searchResultName = driver.findElement(resultsListName).getText();
-			System.out.println(searchResultName);
-			returnStr = "Found";
-		}
-		else if (driver.findElements(noRecordsFound).size()!=0)
-		{
-			System.out.println("No Records Found");
+		if (autoCompleteValue.equals("No Records Found")) {
 			returnStr = "Not Found";
 		}
+		else
+		{
+			driver.findElement(autoCompleteOption).click();
+			driver.findElement(searchButton).click();
+			Thread.sleep(3000);
+			String searchResultName = driver.findElement(resultsListName).getText();
+			System.out.println("the result text is ="+searchResultName);
+			returnStr = "Found";	
+		}
+		
 		return returnStr;
-		
-		
-		
 	}
 	
 	public void clickReset()
 	{
-		driver.findElement(resetButton).click();
+		if (returnStr.equals("Found"))
+		{
+			driver.findElement(resetButton).click();
+		}
+		else
+		{
+			String selectAll = Keys.chord(Keys.CONTROL, "a");
+			driver.findElement(searchNameField).sendKeys(selectAll);
+			driver.findElement(searchNameField).sendKeys(Keys.BACK_SPACE);
+		}
 	}
 }

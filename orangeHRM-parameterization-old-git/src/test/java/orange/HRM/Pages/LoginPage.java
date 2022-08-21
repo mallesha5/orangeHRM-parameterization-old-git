@@ -17,11 +17,11 @@ public class LoginPage
 	
 	WebDriver driver;
 	
-	By username = By.id("txtUsername");
+	By username = By.name("username");
 	
-	By password = By.id("txtPassword");
+	By password = By.name("password");
 	
-	By loginBtn = By.id("btnLogin");
+	By loginBtn = By.className("orangehrm-login-button");
 	
 	public LoginPage(WebDriver driver) 
 	{
